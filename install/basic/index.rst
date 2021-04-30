@@ -121,7 +121,7 @@ Let's say your project is named :guilabel:`my_geonode` perform the following ste
 
 .. code-block:: shell
 
-  git clone https://github.com/GeoNode/geonode-project.git -b 3.1.x
+  git clone https://github.com/GeoNode/geonode-project.git -b 3.2.x
 
   # Ubuntu
   source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
@@ -247,9 +247,9 @@ In the case you would like to deploy to, let's say, :guilabel:`https://my_geonod
     +GEONODE_GEODATABASE=my_geonode_data
     GEONODE_GEODATABASE_PASSWORD=geonode
     
-    -DATABASE_URL=postgres://{{project_name}}:geonode@db:5432/{{project_name}}
+    -DATABASE_URL=postgis://{{project_name}}:geonode@db:5432/{{project_name}}
     -GEODATABASE_URL=postgis://{{project_name}}_data:geonode@db:5432/{{project_name}}_data
-    +DATABASE_URL=postgres://my_geonode:geonode@db:5432/my_geonode
+    +DATABASE_URL=postgis://my_geonode:geonode@db:5432/my_geonode
     +GEODATABASE_URL=postgis://my_geonode_data:geonode@db:5432/my_geonode_data
     DEFAULT_BACKEND_DATASTORE=datastore
     BROKER_URL=amqp://guest:guest@rabbitmq:5672/
@@ -823,9 +823,9 @@ In order to do that, follow the procedure below:
 
     # Update the GeoServer WEB-INF/lib JARs accordingly
     wget --no-check-certificate "https://www.dropbox.com/s/psolxleimaft0t7/postgis-jdbc-1.3.3.jar?dl=1" -O postgis-jdbc-1.3.3.jar && \
-    wget --no-check-certificate "https://www.dropbox.com/s/m9dpmfvp8p4iv2p/hibernate-spatial-postgis-1.1.3.1.jar?dl=1" -O hibernate-spatial-postgis-1.1.3.1.jar && \
+    wget --no-check-certificate "https://www.dropbox.com/s/ilowu1vd27j2cs1/hibernate-spatial-postgis-1.1.3.2.jar?dl=1" -O hibernate-spatial-postgis-1.1.3.2.jar && \
     rm /usr/local/tomcat/webapps/geoserver/WEB-INF/lib/hibernate-spatial-h2-geodb-1.1.3.1.jar && \
-    mv hibernate-spatial-postgis-1.1.3.1.jar /usr/local/tomcat/webapps/geoserver/WEB-INF/lib/ && \
+    mv hibernate-spatial-postgis-1.1.3.2.jar /usr/local/tomcat/webapps/geoserver/WEB-INF/lib/ && \
     mv postgis-jdbc-1.3.3.jar /usr/local/tomcat/webapps/geoserver/WEB-INF/lib/
 
 The container is ready to be restarted now.

@@ -1034,10 +1034,10 @@ By default GeoFence is configured to use a filesystem based DB stored on the Geo
 
     .. code-block:: shell
 
-        wget --no-check-certificate "https://www.dropbox.com/s/m9dpmfvp8p4iv2p/hibernate-spatial-postgis-1.1.3.1.jar?dl=1" -O hibernate-spatial-postgis-1.1.3.1.jar
+        wget --no-check-certificate "https://www.dropbox.com/s/ilowu1vd27j2cs1/hibernate-spatial-postgis-1.1.3.2.jar?dl=1" -O hibernate-spatial-postgis-1.1.3.2.jar
         wget --no-check-certificate "https://www.dropbox.com/s/psolxleimaft0t7/postgis-jdbc-1.3.3.jar?dl=1" -O postgis-jdbc-1.3.3.jar
 
-        cp hibernate-spatial-postgis-1.1.3.1.jar <GEOSERVER_WEBAPP_DIR>/WEB-INF/lib
+        cp hibernate-spatial-postgis-1.1.3.2.jar <GEOSERVER_WEBAPP_DIR>/WEB-INF/lib
         cp postgis-jdbc-1.3.3.jar <GEOSERVER_WEBAPP_DIR>/WEB-INF/lib
 
         restart geoserver

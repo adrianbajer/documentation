@@ -33,7 +33,7 @@ The steps to be followed are:
 Install GeoNode-Core for development
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-GeoNode-Core installation is considered the most basic form of GeoNode. It doesn't require any external server to be installed and it can run locally against a file-system based SQLite database.
+GeoNode-Core installation is considered the most basic form of GeoNode. It doesn't require any external server to be installed and it can run locally against a file-system based Spatialite database.
 
 Installation steps
 ..................
@@ -178,7 +178,7 @@ To download the latest geonode version from github, the command "git clone" is u
 
 .. code-block:: shell
     
-    $ git clone https://github.com/GeoNode/geonode.git -b 3.1.x
+    $ git clone https://github.com/GeoNode/geonode.git -b 3.2.x
 
 Install Nodejs PPA and other tools required for static development
 
@@ -379,7 +379,7 @@ If you didn't install GeoNode-Core earlier and you wanted to install GeoNode-Pro
 
 .. code-block:: shell
 
-    $ git clone https://github.com/GeoNode/geonode-project.git -b 3.1.x
+    $ git clone https://github.com/GeoNode/geonode-project.git -b 3.2.x
 
 
 3- Install Django framework as follows

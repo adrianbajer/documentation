@@ -137,6 +137,27 @@ ADMIN_MODERATE_UPLOADS
     A ``Group Manager`` *can* approve the resource, but he cannot publish it whenever the setting ``RESOURCE_PUBLISHING`` is set to ``True``.
     Otherwise, if ``RESOURCE_PUBLISHING`` is set to ``False``, the resource becomes accessible as soon as it is approved.
 
+ADMINS_ONLY_NOTICE_TYPES
+------------------------
+
+    | Default: ``['monitoring_alert',]``
+
+    A list of notification labels that standard users should not either see or set.
+
+    Such notifications will be hidden from the notify settings page and automatically set to false for non-superusers.
+
+
+ADVANCED_EDIT_EXCLUDE_FIELD
+---------------------------
+    | Default: ``[]``
+
+    A list of element (item name) to exclude from the Advanced Edit page.
+
+    Example:
+    
+    ``ADVANCED_EDIT_EXCLUDE_FIELD=['title', 'keywords', 'tkeywords']``
+
+
 AGON_RATINGS_CATEGORY_CHOICES
 -----------------------------
 
@@ -478,6 +499,20 @@ CATALOGUE
 
     pycsw is the default CSW enabled in GeoNode. pycsw configuration directives
     are managed in the PYCSW entry.
+
+CATALOGUE_METADATA_TEMPLATE
+---------------------------
+
+    Default : ``catalogue/full_metadata.xml``
+
+    A string with the catalogue xml file needed for the metadata.
+
+CATALOGUE_METADATA_XSL
+----------------------
+
+    Default : ``'/static/metadataxsl/metadata.xsl``
+
+    A string pointing to the XSL used to transform the metadata XML into human readable HTML.
 
 CELERYD_POOL_RESTARTS
 ---------------------
@@ -1074,7 +1109,9 @@ LEAFLET_CONFIG
 LICENSES
 --------
 
-    | Default::
+    | Default:
+
+    .. code-block:: python
 
         {
             'ENABLED': True,
@@ -1227,6 +1264,90 @@ MAX_DOCUMENT_SIZE
     | Env: ``MAX_DOCUMENT_SIZE``
 
     Allowed size for documents in MB.
+
+METADATA_PARSERS
+----------------
+
+Is possible to define multiple XML parsers for ingest XML during the layer upload.
+
+The variable should be declared in this way in `settings.py`:
+
+`METADATA_PARSERS = ['list', 'of', 'parsing', 'functions']`
+
+If you want to always use the default metadata parser and after use your own, the variable must be set with first value as `__DEFAULT__`
+Example:
+
+`METADATA_PARSERS = ['__DEFAULT__', 'custom_parsing_function]`
+
+If not set, the system will use the `__DEFAULT__` parser.
+
+The custom parsing function must be accept in input 6 parameter that are:
+    
+    | - exml (xmlfile)
+    | - uuid (str)
+    | - vals (dict)
+    | - regions (list)
+    | - keywords (list)
+    | - custom (dict)
+
+If you want to use your parser after the default one, here is how the variable are populated:
+    
+    | - exml: the XML file to parse
+    | - uuid: the UUID of the layer
+    | - vals: Dictionary of information that belong to ResourceBase
+    | - regions: List of regions extracted from the XML
+    | - keywords: List of dict of keywords already divided between free-text and thesarus
+    | - custom: Custom varible
+
+NOTE: the keywords must be in a specific format, since later this dict, will be ingested by the `KeywordHandler` which will assign the keywords/thesaurus to the layer.
+
+    .. code::
+        {
+            "keywords": [list_of_keyword_extracted],
+            "thesaurus": {"date": None, "datetype": None, "title": None}, # thesaurus informations
+            "type": theme,  #extracted theme if present
+        }
+        
+Here is an example of expected parser function
+
+    .. code::
+        def custom_parsing_function(exml, uuid, vals, regions, keywords, custom):
+            # Place here your code
+            return uuid, vals, regions, keywords, custom
+
+For more information, please rely to `TestCustomMetadataParser` which contain a smoke test to explain the functionality
+
+            
+METADATA_STORER
+----------------
+
+Is possible to define multiple Layer storer during the layer upload.
+
+The variable should be declared in this way:
+
+`METADATA_STORER = ['custom_storer_function]`
+
+NOTE: By default the Layer is always saved with the default behaviour.
+
+The custom storer function must be accept in input 2 parameter that are:
+    
+    | - Layer (layer model instance)
+    | - custom (dict)
+
+Here is how the variable are populated by default:
+    
+    | - layer (layer model instance) that we wanto to change
+    | - custom: custom dict populated by the parser
+
+Here is an example of expected storer function
+
+    .. code::
+        def custom_storer_function(layer, custom):
+            # do something here
+            pass
+
+For more information, please rely to `TestMetadataStorers` which contain a smoke test to explain the functionality
+
 
 MISSING_THUMBNAIL
 -----------------
@@ -2157,6 +2278,26 @@ TINYMCE_DEFAULT_CONFIG
 U
 =
 
+UI_REQUIRED_FIELDS
+------------------
+If this option is enabled, the input selected (we are referring to the one present in the optional Metadata-Tab on the Metadata-Wizard) will become mandatory.
+
+The fields that can be mandatory are:
+
+    | id_resource-edition => Label: Edition
+    | id_resource-purpose => Label: Purpose
+    | id_resource-supplemental_information =>  Label: Supplemental information 
+    | id_resource-temporal_extent_start_pickers => Label: temporal extent start
+    | id_resource-temporal_extent_end => Label:  temporal extent end
+    | id_resource-maintenance_frequency => Label:  Maintenance frequency
+    | id_resource-spatial_representation_type => Label:  Spatial representation type 
+
+If at least one on the above ids is set in this configuration, the panel header will change from `Optional` to `Mandatory`
+
+    | Confiugration Example:
+    | UI_REQUIRED_FIELDS = ['id_resource-edition']
+
+
 UNOCONV_ENABLE
 --------------
 
@@ -2231,6 +2372,29 @@ USER_ANALYTICS_GZIP
 
     To be used with ``USER_ANALYTICS_ENABLED``.
     Compress ``gzip`` json messages before sending to ``logstash``.
+
+
+UUID HANDLER
+------------
+
+Is possible to define an own uuidhandler for the Layer.
+
+To start using your own handler, is needed to add the following configuration:
+
+`LAYER_UUID_HANDLER = "mymodule.myfile.MyObject"`
+
+The Object must accept as `init` the `instance` of the layer and have a method named `create_uuid()`
+
+here is an example:
+
+    | class MyObject():
+    |    def __init__(self, instance):
+    |        self.instance = instance
+    |
+    |    def create_uuid(self):
+    |        # here your code
+    |        pass
+
 
 X
 =
