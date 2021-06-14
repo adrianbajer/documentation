@@ -50,9 +50,9 @@ Fix the tables in order to migrate to the new schema
     CREATE TABLE base_backup(name varchar);
 
     CREATE TABLE base_usergeolimit_bkp ( like base_usergeolimit including all);
-    CREATE TABLE base_groupgeolimit_bkp ( like base_usergeolimit including all);
-    CREATE TABLE base_resourcebase_users_geolimits_bkp ( like base_usergeolimit including all);
-    CREATE TABLE base_resourcebase_groups_geolimits_bkp ( like base_usergeolimit including all);
+    CREATE TABLE base_groupgeolimit_bkp ( like base_groupgeolimit including all);
+    CREATE TABLE base_resourcebase_users_geolimits_bkp ( like base_resourcebase_users_geolimits including all);
+    CREATE TABLE base_resourcebase_groups_geolimits_bkp ( like base_resourcebase_groups_geolimits including all);
 
     DROP TABLE IF EXISTS base_configuration CASCADE;
     DROP TABLE IF EXISTS base_usergeolimit CASCADE;
